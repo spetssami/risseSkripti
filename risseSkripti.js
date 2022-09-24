@@ -1,33 +1,33 @@
-let jokuBoolean = true
-let teksti = "" //MUOKKAA TÄTÄ. Lisää hipsujen sisään valittavan tuotteen sisällä esiintyvä teksti, kuten E4 (esim. risteilylle) tai Apollo (jatkopaikka)
-const nappula = document.querySelectorAll("button")[5];
+let stillRunning = true;
+let customText = ""; // Add the known text here, between the "". E.g. the price of the ticket or name of the club for the afterparty.
+customText.toLowerCase();
+const randomButton = document.querySelectorAll("button")[5]; // <-- Don't ask, I don't know ":D"
 
-function paivita(){
-	if(jokuBoolean){
-		if(document.getElementsByClassName("o-align-items--flex-start").length != 0){
-			let omalista = document.querySelectorAll(".o-align-items--flex-start")
-			for(let i=0; i<omalista.length; i++){
-				if(omalista[i].innerText.includes(teksti)){
-					omalista[i].click()
-					jokuBoolean = false
-					continue;
-				}
-			}
-		} else {
-			painaNappulaa()
-		}
-	}
-}
-
-function painaNappulaa(){
-	nappula.click()
-}
-
-window.addEventListener("keydown", (event) => {
-	if (event.defaultPrevented) {
-		return;
+function updatePage(){
+    if(stillRunning){
+        if(document.getElementsByClassName("o-align-items--flex-start").length != 0){
+            let parsedList = document.getElementsByClassName("o-align-items--flex-start");
+            for( let i=0; i<parsedList.length; i++){
+                if(parsedList[i].innerText.toLowerCase().includes(customText)){
+                    parsedList[i].click();
+                    stillRunning = false;
+                    break;
+                }
+            }
+        } else {
+            pushButton();
+        }
     }
-    if (event.keyCode == 39){ //Oikea nuolinäppäin
-		paivita()
+}
+function pushButton(){
+    randomButton.click();
+}
+
+window.addEventListener("keydown", (event) =>{
+    if(event.defaultPrevented){
+        return;
+    }
+    if(event.keyCode == 39){ // Keycode for right arrow button
+        updatePage();
     }
 })
